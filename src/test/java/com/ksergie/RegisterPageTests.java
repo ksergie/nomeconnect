@@ -13,7 +13,7 @@ public class RegisterPageTests {
     @TestTemplate
     void testRegisterWithCorrectData(WebDriver driver){
         RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.register();
+        registerPage.registration();
     }
 
 }
