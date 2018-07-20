@@ -49,6 +49,34 @@ public class RegisterPage {
     private By buttonConcentApp = By.xpath("//div[@class='col-md-12  text-center']/a");
     // XPath for Payment page
     private By linkOnlyForTest = By.xpath("(//div[@class='row']/a)[1]");
+    // XPathes for BIOGRAPHICAL DATA page
+    private By dropboxTitle = By.id("id_title");
+    private By optionTitle = By.xpath("//select[@id='id_title']/option[@value='MR']");
+    private By dropboxGender = By.id("id_applicant_gender");
+    private By optionGender = By.xpath("//select[@id='id_applicant_gender']/option[@value='1']");
+    private By dropboxID = By.id("id_id_type");
+    private By optionID = By.xpath("//select[@id='id_id_type']/option[@value='ID']");
+    private By fieldID = By.id("id_id_number");
+    private By inputIDdoc = By.id("id_id_doc");
+    private By fieldBirthdate = By.id("id_birth_date");
+    private By dropboxEquityCode = By.id("id_equity_code");
+    private By optionEquityCode = By.xpath("//select[@id='id_equity_code']/option[@value='W']");
+    private By dropboxNationality = By.id("id_nationality");
+    private By optionNationality = By.xpath("//select[@id='id_nationality']/option[@value='UA']");
+    private By dropboxHomeLanguage = By.id("id_home_language");
+    private By optionHomeLanguage = By.xpath("//select[@id='id_home_language']/option[@value='4']");
+    private By dropboxRSACitizen = By.id("id_rsa_citizen_resident_status");
+    private By optionRSACitizen = By.xpath("//select[@id='id_rsa_citizen_resident_status']/option[@value='Y']");
+    private By dropboxSocioStatus = By.id("id_socio_economic_status");
+    private By optionSocioStatus = By.xpath("//select[@id='id_socio_economic_status']/option[@value='H']");
+    private By dropboxHasDisabilityStatus = By.id("id_has_disability_status");
+    private By optionHasDisabilityStatus = By.xpath("//select[@id='id_has_disability_status']/option[@value='Y']");
+    private By dropboxDisabilityStatus = By.id("id_disability_status");
+    private By optionDisabilityStatus = By.xpath("//select[@id='id_disability_status']/option[@value='C']");
+    private By fieldHomeAddress = By.id("id_home_address");
+    private By fieldPostAddress = By.id("id_postal_address");
+    private By buttonNextBioData = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+
 
 
     public void registration(){
@@ -132,6 +160,39 @@ public class RegisterPage {
         Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
                 "BIOGRAPHICAL DATA",
                 "We are not on the BIOGRAPHICAL DATA page");
+
+        // Fill the BIOGRAPHICAL DATA page
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxTitle)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionTitle)).click();
+//        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(optionTitle));
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxGender)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionGender)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxID)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionID)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldID)).sendKeys("7311065120082");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(inputIDdoc)).sendKeys("D:\\id.png");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldBirthdate)).sendKeys("06111973");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxEquityCode)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionEquityCode)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxNationality)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionNationality)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxHomeLanguage)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionHomeLanguage)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxRSACitizen)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionRSACitizen)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxSocioStatus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionSocioStatus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxHasDisabilityStatus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionHasDisabilityStatus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxDisabilityStatus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionDisabilityStatus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldHomeAddress))
+                .sendKeys("228 Johannes Ramokhoase(Proes) Street Pretoria South Africa");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldPostAddress))
+                .sendKeys("Private Bag X990 Pretoria South Africa");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextBioData)).click();
+
     }
 
     private String getUserName(){
