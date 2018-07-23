@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,6 +19,10 @@ public class RegisterPage {
     public RegisterPage(WebDriver driver) {
         this.driver = driver;
     }
+
+    // Path to the resource directory
+
+    private File resourcesDirectory = new File("src/main/resources");
 
     // The testing site's URL
 
@@ -76,7 +81,25 @@ public class RegisterPage {
     private By fieldHomeAddress = By.id("id_home_address");
     private By fieldPostAddress = By.id("id_postal_address");
     private By buttonNextBioData = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
-
+    // XPathes for COURSE QUALIFICATION page
+    private By dropboxCourseCampus = By.id("id_course_campus");
+    private By optionCourseCampus = By.xpath("//select[@id ='id_course_campus']/option[@value='2']");
+    private By dropboxCourseName = By.id("courses");
+    private By optionCourseName = By.xpath("//select[@id ='courses']/option[@value='3']");
+    private By dropboxCampusAssessed = By.id("id_assesmment_campus_same_yn");
+    private By optionCampusAssessed = By.xpath("//select[@id ='id_assesmment_campus_same_yn']/option[@value='Y']");
+    private By buttonNextCourseQualify = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // XPathes for LATEST FORMAL QUALIFICATIONS COMPLETED TO DATE page
+    private  By fieldYearQualificationCompletion = By.id("id_qualification_year");
+    private By dropboxQualificationType = By.id("id_qualification_type");
+    private By optionQualificationType = By.xpath("//select[@id='id_qualification_type']/option[@value='1']");
+    private By dropboxQualificationResult = By.id("id_qualification_result");
+    private By optionQualificationResult = By.xpath("//select[@id='id_qualification_result']/option[@value='Pass DA']");
+    private By inputDiploma = By.id("id_qual_doc_name");
+    private By buttonNextLatestQualify = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // XPathes for SR Questionnaire Instructions page
+    private By buttonNextSrqAgreement = By.id("next_button");
+    private By checkboxSrqAgreement = By.xpath("//label[@for='srq_agreement_checkbox']");
 
 
     public void registration(){
@@ -171,7 +194,8 @@ public class RegisterPage {
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxID)).click();
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionID)).click();
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldID)).sendKeys("7311065120082");
-        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(inputIDdoc)).sendKeys("D:\\id.png");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(inputIDdoc))
+                .sendKeys(resourcesDirectory.getAbsolutePath() + "\\id.png");
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldBirthdate)).sendKeys("06111973");
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxEquityCode)).click();
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionEquityCode)).click();
@@ -192,7 +216,52 @@ public class RegisterPage {
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldPostAddress))
                 .sendKeys("Private Bag X990 Pretoria South Africa");
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextBioData)).click();
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "COURSE QUALIFICATION",
+                "We are not on the COURSE QUALIFICATION page");
 
+        // Fill the COURSE QUALIFICATION gage
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxCourseCampus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionCourseCampus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxCourseName)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionCourseName)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxCampusAssessed)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionCampusAssessed)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextCourseQualify)).click();
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "LATEST FORMAL QUALIFICATIONS COMPLETED TO DATE",
+                "We are not on the LATEST FORMAL QUALIFICATIONS page");
+
+        // Fill the LATEST FORMAL QUALIFICATIONS COMPLETED TO DATE page
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldYearQualificationCompletion)).sendKeys("1995");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxQualificationType)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionQualificationType)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxQualificationResult)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionQualificationResult)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(inputDiploma))
+                .sendKeys(resourcesDirectory.getAbsolutePath() + "\\diploma.png");
+        // fill the Subject + Persentage fields
+        for(int i = 1; i < 9; i++){
+            String subjectId = "id_qual_sub" + i + "_name";
+            String persentageId = "id_qual_sub" + i + "_percentage";
+            String subjectName = "Subject name" + i;
+            (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(By.id(subjectId))).sendKeys(subjectName);
+            (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(By.id(persentageId))).sendKeys("100");
+        }
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextLatestQualify)).click();
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "SR Questionnaire Instructions",
+                "We are not on the SR Questionnaire Instructions page");
+
+        // Fill the SR Questionnaire Instructions page
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(checkboxSrqAgreement)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextSrqAgreement)).click();
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "Study Readiness Questionnaire",
+                "We are not on the Study Readiness Questionnaire page");
     }
 
     private String getUserName(){
