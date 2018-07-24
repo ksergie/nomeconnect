@@ -2,15 +2,16 @@ package com.ksergie;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class RegisterPage {
 
@@ -100,6 +101,24 @@ public class RegisterPage {
     // XPathes for SR Questionnaire Instructions page
     private By buttonNextSrqAgreement = By.id("next_button");
     private By checkboxSrqAgreement = By.xpath("//label[@for='srq_agreement_checkbox']");
+    // Xpathes for Section 1 LIFE FACTORS page
+    private By buttonNextLifeFactors = By.id("next_button");
+    private By anchorSections = By.xpath("//div[@class='row no-gutter']/h3");
+    // Xpathes for Section 1 TECH
+    private By buttonNextTech = By.id("next_button");
+    // Xpathes for Section 2 INDIVIDUAL ATTRIBUTES
+    private By buttonNextIndividual = By.id("next_button");
+    // Xpathes for Section 3 LEARNING STYLES
+    private By buttonNextLearning = By.id("next_button");
+    // Xpathes for Portfolio of Learning Steps
+    private By buttonNextPortfolio = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // Xpathes for Portfolio of Learning Creator Download
+    private  By buttonDownloadPol = By.xpath("//p[text()='Download your PoL assignment: ']/a");
+    private  By buttonDownloadAssignment = By.xpath("//p[text()='Download your assignment answer sheets: ']/a");
+    private By buttonNextPortfolioCreator = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // XPathes for Upload your portfolio of learning assignment page
+    private By inputPoLAnswerSheet = By.id("id_assignment_answer_sheet");
+    private By buttonNextUploadPortfolio = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
 
 
     public void registration(){
@@ -220,15 +239,16 @@ public class RegisterPage {
                 "COURSE QUALIFICATION",
                 "We are not on the COURSE QUALIFICATION page");
 
-        // Fill the COURSE QUALIFICATION gage
+        // Fill the COURSE QUALIFICATION page
 
-        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxCourseCampus)).click();
-        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionCourseCampus)).click();
-        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxCourseName)).click();
-        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionCourseName)).click();
-        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxCampusAssessed)).click();
-        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(optionCampusAssessed)).click();
+        (new WebDriverWait(driver, 5)).until(ExpectedConditions.elementToBeClickable(dropboxCourseCampus)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.elementToBeClickable(optionCourseCampus)).click();
+        (new WebDriverWait(driver, 5)).until(ExpectedConditions.elementToBeClickable(dropboxCourseName)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.elementToBeClickable(optionCourseName)).click();
+        (new WebDriverWait(driver, 5)).until(ExpectedConditions.elementToBeClickable(dropboxCampusAssessed)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.elementToBeClickable(optionCampusAssessed)).click();
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextCourseQualify)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(dropboxCourseCampus));
         Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
                 "LATEST FORMAL QUALIFICATIONS COMPLETED TO DATE",
                 "We are not on the LATEST FORMAL QUALIFICATIONS page");
@@ -262,7 +282,138 @@ public class RegisterPage {
         Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
                 "Study Readiness Questionnaire",
                 "We are not on the Study Readiness Questionnaire page");
+
+        // Fill the Section 1 LIFE FACTORS page
+
+        // Click the questions from 1 to 20
+        for (int i = 1; i < 21; i++){
+            String xpath = "//input[@name='question_" + i + "']";
+            checkRadiobuttons(xpath);
+        }
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.elementToBeClickable(buttonNextLifeFactors)).click();
+
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorSections)).getText(),
+                "Section 1 TECH",
+                "We are not on the Section 1 TECH page");
+
+        // Fill the Section 1 TECH page
+
+        // Click the questions from 22 to 48
+        for (int i = 22; i < 49; i++){
+            String xpath = "//input[@name='question_" + i + "']";
+            checkRadiobuttons_reverse(xpath);
+        }
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.elementToBeClickable(buttonNextTech)).click();
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorSections)).getText(),
+                "Section 2 INDIVIDUAL ATTRIBUTES",
+                "We are not on the Section 2 INDIVIDUAL ATTRIBUTES page");
+
+        // Fill the Section 2 INDIVIDUAL ATTRIBUTES page
+
+        // Click the questions 21, from 49 to 90 and from 126 to 127
+        String xpath = "//input[@name='question_21']";
+        checkRadiobuttons(xpath);
+        for (int i = 49; i < 91; i++){
+            xpath = "//input[@name='question_" + i + "']";
+            checkRadiobuttons(xpath);
+        }
+        for (int i = 126; i < 128; i++){
+            xpath = "//input[@name='question_" + i + "']";
+            checkRadiobuttons(xpath);
+        }
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.elementToBeClickable(buttonNextIndividual)).click();
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorSections)).getText(),
+                "Section 3 LEARNING STYLES",
+                "We are not on the Section 3 LEARNING STYLES page");
+
+        // Fill the Section 3 LEARNING STYLES page
+
+        for (int i = 91; i < 126; i++){
+            xpath = "//input[@name='question_" + i + "']";
+            checkRadiobuttons(xpath);
+        }
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.elementToBeClickable(buttonNextLearning)).click();
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "Portfolio of Learning Steps",
+                "We are not on the Portfolio of Learning Steps page");
+
+        // Fill the Portfolio of Learning Steps page
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextPortfolio)).click();
+//        (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(buttonNextPortfolio));
+//        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+//                "Portfolio of Learning Creator Download",
+//                "We are not on the Portfolio of Learning Creator Download page");
+
+        // Portfolio of Learning Creator Download
+
+        // Check the link
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonDownloadPol))
+                        .getAttribute("href"),
+                "http://afdatest.nome.co.za/media/AFDA_-_Course_8_-_PoL_Guideline.pdf",
+                "The *Download your PoL assignment* link is not http://afdatest.nome.co.za/media/AFDA_-_Course_8_-_PoL_Guideline.pdf");
+
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonDownloadAssignment))
+                        .getAttribute("href"),
+                "http://afdatest.nome.co.za/media/AFDA_-_Course_8_-_PoL_Answer_sheet.docx",
+                "The *Download your assignment answer sheets* link is not http://afdatest.nome.co.za/media/AFDA_-_Course_8_-_PoL_Answer_sheet.docx");
+
+        // Check the button
+        Assertions.assertTrue((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonDownloadPol)).isEnabled()
+                , "The *Download your PoL assignment* button is not enabled");
+        Assertions.assertTrue((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonDownloadAssignment)).isEnabled()
+                , "The *Download your assignment answer sheets* button is not enabled");
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextPortfolioCreator)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(buttonDownloadPol));
+        Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "Upload your portfolio of learning assignment",
+                "We are not on the Upload your portfolio of learning assignment page");
+
+        // Upload your portfolio of learning assignment
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(inputPoLAnswerSheet))
+                .sendKeys(resourcesDirectory.getAbsolutePath() + "\\AFDA_-_Course_8_-_PoL_Answer_sheet.docx");
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextUploadPortfolio)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(inputPoLAnswerSheet));
+        Assertions.assertEquals((new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "RATE YOURSELF",
+                "We are not on the RATE YOURSELF page");
     }
+
+    // Click from Up to Down
+    private void checkRadiobuttons(String x_path){
+        List<String> ids = new ArrayList<>();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(x_path)));
+        List<WebElement> radiobuttonList = driver.findElements(By.xpath(x_path));
+        for(WebElement rbutton: radiobuttonList){
+            ids.add(rbutton.getAttribute("id"));
+        }
+        for(String id: ids){
+            driver.findElement(By.id(id)).click();
+        }
+        ids.clear();
+        radiobuttonList.clear();
+    }
+
+    // Click from Down to Up
+    private void checkRadiobuttons_reverse(String x_path){
+        List<String> ids = new ArrayList<>();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(x_path)));
+        List<WebElement> radiobuttonList = driver.findElements(By.xpath(x_path));
+        for(WebElement rbutton: radiobuttonList){
+            ids.add(rbutton.getAttribute("id"));
+        }
+        Collections.reverse(ids);
+        for(String id: ids){
+            driver.findElement(By.id(id)).click();
+        }
+        ids.clear();
+        radiobuttonList.clear();
+    }
+
 
     private String getUserName(){
         DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
