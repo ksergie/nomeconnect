@@ -5,13 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static jdk.nashorn.internal.objects.NativeString.trim;
 
 public class RegisterPage {
 
@@ -119,6 +120,31 @@ public class RegisterPage {
     // XPathes for Upload your portfolio of learning assignment page
     private By inputPoLAnswerSheet = By.id("id_assignment_answer_sheet");
     private By buttonNextUploadPortfolio = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // XPathes for RATE YOURSELF page
+    private By buttonNextRateYourself = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // Xpathes for PROVIDE EVIDENCE/ OTHER UPLOADS page
+    private By fieldEvidence = By.id("id_form-0-title");
+    private By inputEvidence = By.id("id_form-0-file");
+    private By buttonNextEvidence = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // XPathes for Upload your motivational letter page
+    private By inputMotivationLetter = By.id("id_motivational_letter");
+    private By buttonNextMotivationLetter = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // XPathes for External References page
+    private By dropboxReverenceTitle1 = By.xpath("//select[@id='id_ref_1_title']/option[@value='MR']");
+    private By dropboxReverenceTitle2 = By.xpath("//select[@id='id_ref_2_title']/option[@value='MR']");
+    private By fieldReferenceName1 = By.id("id_ref_1_name");
+    private By fieldReferenceName2 = By.id("id_ref_2_name");
+    private By fieldReferenceEmail1 = By.id("id_ref_1_email");
+    private By fieldReferenceEmail2 = By.id("id_ref_2_email");
+    private By fieldReferencePhone1 = By.id("id_ref_1_phone");
+    private By fieldReferencePhone2 = By.id("id_ref_2_phone");
+    private By fieldReferenceRelationship1 = By.id("id_ref_1_relationship");
+    private By fieldReferenceRelationship2 = By.id("id_ref_2_relationship");
+    private By buttonNextRelationship = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    // XPathes for VERIFY page
+    private By buttonNextVerify = By.xpath("//div[@class='col-xs-12 text-center']/input[@type='submit']");
+    private By buttonHome = By.xpath("//a[@class='btn btn-primary']");
+    private By anchorHome = By.xpath("(//form/p)[1]");
 
 
     public void registration(){
@@ -235,6 +261,7 @@ public class RegisterPage {
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldPostAddress))
                 .sendKeys("Private Bag X990 Pretoria South Africa");
         (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextBioData)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(fieldHomeAddress));
         Assertions.assertEquals((new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
                 "COURSE QUALIFICATION",
                 "We are not on the COURSE QUALIFICATION page");
@@ -381,7 +408,82 @@ public class RegisterPage {
         Assertions.assertEquals((new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
                 "RATE YOURSELF",
                 "We are not on the RATE YOURSELF page");
+
+        // RATE YOURSELF page
+
+
+//        for (int i = 365; i < 375; i++){
+//
+//            String path1 = "competency_" + i;
+//            String path2 = "//select[@id='competency_" + i + "']/option[@value='9']";
+//            (new WebDriverWait(driver, 5)).until(ExpectedConditions.visibilityOfElementLocated(By.id(path1))).click();
+//            (new WebDriverWait(driver, 5)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(path2))).click();
+//        }
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextRateYourself)).click();
+//        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("374")));
+        Assertions.assertEquals((new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "PROVIDE EVIDENCE/ OTHER UPLOADS",
+                "We are not on the PROVIDE EVIDENCE/ OTHER UPLOADS page");
+
+        // PROVIDE EVIDENCE/ OTHER UPLOADS
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldEvidence)).sendKeys("Poetry certificate");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(inputEvidence))
+                .sendKeys(resourcesDirectory.getAbsolutePath() + "\\certificate.png");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextEvidence)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(fieldEvidence));
+        Assertions.assertEquals((new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "Upload your motivational letter",
+                "We are not on the Upload your motivational letter page");
+
+        // Upload your motivational letter
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(inputMotivationLetter))
+                .sendKeys(resourcesDirectory.getAbsolutePath() + "\\motivation_letter.doc");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextMotivationLetter)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(inputMotivationLetter));
+        Assertions.assertEquals((new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "External References",
+                "We are not on the External References page");
+
+        // External References
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxReverenceTitle1)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldReferenceName1)).sendKeys("Bill Gates");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldReferenceEmail1)).sendKeys("bill@microsoft.com");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldReferencePhone1)).sendKeys("1(800)8000001");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldReferenceRelationship1)).sendKeys("Friend");
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(dropboxReverenceTitle2)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldReferenceName2)).sendKeys("Elon Musk");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldReferenceEmail2)).sendKeys("musk@paypal.com");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldReferencePhone2)).sendKeys("1(800)7000001");
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(fieldReferenceRelationship2)).sendKeys("Friend");
+
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextRelationship)).click();
+        (new WebDriverWait(driver, 3)).until(ExpectedConditions.invisibilityOfElementLocated(fieldReferenceName1));
+
+        Assertions.assertEquals((new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(anchorPre_register)).getText(),
+                "VERIFY",
+                "We are not on the VERIFY page");
+
+        // VERIFY page
+
+        (new WebDriverWait(driver, 7)).until(ExpectedConditions.visibilityOfElementLocated(buttonNextVerify)).click();
+        // you can increase the sleep if you have bad internet connection
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        (new WebDriverWait(driver, 7)).until(ExpectedConditions.elementToBeClickable(buttonHome)).click();
+
+        Assertions.assertEquals(trim((new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(anchorHome)).getText()),
+                "Applied at: AFDA",
+                "We are not on the LAST page");
     }
+
+
 
     // Click from Up to Down
     private void checkRadiobuttons(String x_path){
